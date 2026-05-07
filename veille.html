@@ -4,10 +4,338 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="shortcut icon" type="image/png" href="./images/favicon.png"/>
-  <title>Veille Technologique Nisa Ozerdem</title>
+  <title>Veille Informatique Stuxnet</title>
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="description" content="Veille informatique sur Stuxnet, première arme de cyberguerre de l'histoire. Analyse technique, géopolitique et économique par Nisa Ozerdem, BTS SIO SISR.">
   <link rel="stylesheet" href="index.css" />
+  <style>
+    /* ── TIMELINE ───────────────────────────────────────────── */
+    .timeline {
+      position: relative;
+      padding-left: 3.2rem;
+      margin: 4rem 0;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: .6rem; bottom: .6rem;
+      width: 2px;
+      background: linear-gradient(180deg, var(--cobalt) 0%, var(--cobalt-l) 100%);
+    }
+    .timeline__item {
+      position: relative;
+      margin-bottom: 3.5rem;
+    }
+    .timeline__item:last-child { margin-bottom: 0; }
+    .timeline__dot {
+      position: absolute;
+      left: -3.8rem; top: .4rem;
+      width: 1.2rem; height: 1.2rem;
+      background: var(--cobalt);
+      border-radius: 50%;
+      border: 2px solid var(--cream);
+      box-shadow: 0 0 0 2px var(--cobalt);
+    }
+    .timeline__date {
+      font-family: var(--font-mono);
+      font-size: 1.15rem;
+      color: var(--cobalt);
+      letter-spacing: .1em;
+      margin-bottom: .6rem;
+    }
+    .timeline__title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: .8rem;
+      letter-spacing: -.01em;
+    }
+    .timeline__body {
+      font-size: 1.55rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+    }
+
+    /* ── HIGHLIGHT BOX ─────────────────────────────────────── */
+    .highlight-box {
+      border-left: 3px solid var(--cobalt);
+      background: var(--cobalt-xl);
+      padding: 2.4rem 3rem;
+      border-radius: 0 4px 4px 0;
+      margin: 3rem 0;
+    }
+    .highlight-box__title {
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--cobalt);
+      margin-bottom: 1rem;
+    }
+    .highlight-box p {
+      font-size: 1.6rem;
+      color: var(--ink);
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    /* ── STAT CARDS (veille) ───────────────────────────────── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+      gap: 2rem;
+      margin: 4rem 0;
+    }
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 2.6rem 2.4rem;
+      text-align: center;
+      transition: box-shadow .25s, transform .25s;
+    }
+    .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .stat-card__num {
+      font-family: var(--font-display);
+      font-size: 4.2rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--cobalt);
+      letter-spacing: -.03em;
+    }
+    .stat-card__label {
+      font-family: var(--font-body);
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-top: .8rem;
+    }
+
+    /* ── TECH STEPS ────────────────────────────────────────── */
+    .tech-steps {
+      counter-reset: step;
+      display: flex;
+      flex-direction: column;
+      gap: 2.4rem;
+      margin: 3.5rem 0;
+    }
+    .tech-step {
+      display: flex;
+      gap: 2.4rem;
+      align-items: flex-start;
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 2.8rem 3rem;
+      transition: border-color .25s, box-shadow .25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .tech-step::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--cobalt);
+      transition: height .35s ease;
+    }
+    .tech-step:hover::before { height: 100%; }
+    .tech-step:hover { border-color: transparent; box-shadow: var(--shadow-lg); }
+
+    .tech-step__num {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      font-weight: 900;
+      color: rgba(29,78,216,.12);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 4rem;
+      letter-spacing: -.04em;
+    }
+    .tech-step__content { flex: 1; }
+    .tech-step__title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -.015em;
+      margin-bottom: .8rem;
+    }
+    .tech-step__body {
+      font-size: 1.55rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+    }
+    .tech-step__tags { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.2rem; }
+
+    /* ── DARK CALLOUT ──────────────────────────────────────── */
+    .callout-dark {
+      background: var(--ink-2);
+      border-radius: 4px;
+      padding: 3.5rem;
+      display: flex;
+      gap: 2.4rem;
+      align-items: flex-start;
+      margin: 4rem 0;
+    }
+    .callout-dark__icon {
+      font-size: 3rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .callout-dark__title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: .8rem;
+      letter-spacing: -.015em;
+    }
+    .callout-dark__body {
+      font-size: 1.55rem;
+      color: rgba(247,244,239,.6);
+      line-height: 1.7;
+    }
+    .callout-dark__body strong { color: var(--cobalt-l); font-weight: 600; }
+
+    /* ── TWO-COL LAYOUT ────────────────────────────────────── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin: 3rem 0;
+    }
+    @media (max-width: 750px) {
+      .two-col { grid-template-columns: 1fr; }
+      .callout-dark { flex-direction: column; }
+    }
+
+    /* ── QUOTE LARGE ───────────────────────────────────────── */
+    .quote-large {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+      color: var(--ink);
+      line-height: 1.4;
+      border-left: 4px solid var(--cobalt);
+      padding: 2rem 3rem;
+      margin: 4rem 0;
+      background: var(--cream-2);
+      border-radius: 0 4px 4px 0;
+      letter-spacing: -.01em;
+    }
+    .quote-large cite {
+      display: block;
+      font-style: normal;
+      font-family: var(--font-mono);
+      font-size: 1.2rem;
+      letter-spacing: .08em;
+      color: var(--cobalt);
+      margin-top: 1.2rem;
+    }
+
+    /* ── SOURCES ───────────────────────────────────────────── */
+    .sources-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .sources-list li {
+      display: flex;
+      gap: 1.2rem;
+      align-items: baseline;
+      font-size: 1.5rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .sources-list li:last-child { border-bottom: none; }
+    .sources-list__num {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      color: var(--cobalt);
+      flex-shrink: 0;
+      padding-top: .1rem;
+    }
+    .sources-list a { color: var(--cobalt); text-decoration: underline; text-underline-offset: 2px; transition: color .2s; }
+    .sources-list a:hover { color: var(--ink); }
+
+    /* ── VEILLE HERO (spécifique) ───────────────────────────── */
+    .veille-hero {
+      background: var(--ink-2);
+      padding: clamp(6rem, 12vh, 11rem) 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      position: relative;
+      overflow: hidden;
+    }
+    .veille-hero::before {
+      content: 'STUXNET';
+      position: absolute;
+      right: -2rem; top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-display);
+      font-size: clamp(8rem, 18vw, 22rem);
+      font-weight: 900;
+      color: rgba(255,255,255,.025);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -.04em;
+      white-space: nowrap;
+    }
+    .veille-hero .section-label { color: var(--cobalt-l); }
+    .veille-hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 8vw, 7.5rem);
+      font-weight: 900;
+      letter-spacing: -.04em;
+      line-height: .95;
+      color: var(--white);
+      margin: 1.6rem 0 2.4rem;
+    }
+    .veille-hero__title em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--cobalt-l);
+    }
+    .veille-hero__sub {
+      font-size: clamp(1.6rem, 2.2vw, 2rem);
+      color: rgba(247,244,239,.6);
+      max-width: 62rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    .veille-hero__meta {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-top: 3.5rem;
+    }
+
+    /* ── SECTION DARK custom padding ─────────────────────── */
+    .section--dark .highlight-box {
+      background: rgba(59,130,246,.08);
+      border-left-color: var(--cobalt-l);
+    }
+    .section--dark .highlight-box__title { color: var(--cobalt-l); }
+    .section--dark .highlight-box p { color: rgba(247,244,239,.75); }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .stat-row { grid-template-columns: 1fr 1fr; }
+      .tech-step { flex-direction: column; gap: 1rem; }
+      .tech-step__num { font-size: 3rem; }
+    }
+  </style>
 </head>
 <body>
+
+  <!-- NAVIGATION -->
   <nav class="site-nav" role="navigation" aria-label="Navigation principale">
     <div class="container">
       <a href="index.html" class="nav__logo">Nisa <span>Ozerdem.</span></a>
@@ -15,21 +343,545 @@
         <span></span><span></span><span></span>
       </button>
       <ul class="nav__links" id="nav-links">
-        <li><a href="index.html"       class="nav__link">Accueil</a></li>
-        <li><a href="cv.html"          class="nav__link">CV</a></li>
-        <li><a href="about.html"       class="nav__link">Présentation</a></li>
-        <li><a href="veille.html"      class="nav__link">Veille</a></li>
-        <li><a href="stages.html"      class="nav__link">Stages</a></li>
-        <li><a href="competences.html" class="nav__link">Compétences</a></li>
-        <li><a href="documentations.html"  class="nav__link">Docs</a></li>
-        <li><a href="contact.html"         class="nav__link">Contact</a></li>
+        <li><a href="index.html"            class="nav__link">Accueil</a></li>
+        <li><a href="cv.html"               class="nav__link">CV</a></li>
+        <li><a href="about.html"            class="nav__link">Présentation</a></li>
+        <li><a href="veille.html"           class="nav__link nav__link--active">Veille</a></li>
+        <li><a href="stages.html"           class="nav__link">Stages</a></li>
+        <li><a href="competences.html"      class="nav__link">Compétences</a></li>
+        <li><a href="documentations.html"   class="nav__link">Docs</a></li>
+        <li><a href="contact.html"          class="nav__link">Contact</a></li>
       </ul>
     </div>
   </nav>
-<main>
 
+  <main>
+
+    <!-- ───────────────────────────────────────────────────────
+         HERO VEILLE
+    ─────────────────────────────────────────────────────────── -->
+    <header class="veille-hero" id="top">
+      <div class="container">
+        <p class="section-label">Veille Informatique BTS SIO SISR</p>
+        <h1 class="veille-hero__title">
+          Stuxnet<br><em>La première arme<br>de cyberguerre</em>
+        </h1>
+        <p class="veille-hero__sub">
+          Comment un ver informatique de 500 Ko a mis hors-service un cinquième des centrifugeuses nucléaires iraniennes, redéfini les règles de la guerre moderne et inauguré l'ère de la cyberguerre d'État.
+        </p>
+        <div class="veille-hero__meta">
+          <span class="chip">Cybersécurité</span>
+          <span class="chip">Géopolitique</span>
+          <span class="chip">Systèmes industriels OT/ICS</span>
+          <span class="chip">Malware avancé</span>
+          <span class="chip">2010 → aujourd'hui</span>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- ───────────────────────────────────────────────────────
+         CHIFFRES CLÉS
+    ─────────────────────────────────────────────────────────── -->
+    <section class="section" aria-labelledby="chiffres-title">
+      <div class="container">
+
+        <div class="section__header">
+          <div class="section__header-text">
+            <p class="section-label">En chiffres</p>
+            <h2 class="section-title" id="chiffres-title">L'ampleur de l'attaque</h2>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-card fade-up">
+            <div class="stat-card__num">~900</div>
+            <div class="stat-card__label">Centrifugeuses détruites</div>
+          </div>
+          <div class="stat-card fade-up">
+            <div class="stat-card__num">45K</div>
+            <div class="stat-card__label">Systèmes infectés</div>
+          </div>
+          <div class="stat-card fade-up">
+            <div class="stat-card__num">4</div>
+            <div class="stat-card__label">Failles zero-day exploitées</div>
+          </div>
+          <div class="stat-card fade-up">
+            <div class="stat-card__num">≈500Ko</div>
+            <div class="stat-card__label">Taille du ver</div>
+          </div>
+          <div class="stat-card fade-up">
+            <div class="stat-card__num">2005</div>
+            <div class="stat-card__label">Développement débuté</div>
+          </div>
+          <div class="stat-card fade-up">
+            <div class="stat-card__num">20%</div>
+            <div class="stat-card__label">Capacité nucléaire détruite</div>
+          </div>
+        </div>
+
+        <div class="highlight-box fade-up">
+          <p class="highlight-box__title">🔑 Définition clé</p>
+          <p>Stuxnet est un <strong>ver informatique</strong> (worm) un type de malware qui se propage seul de machine en machine sans nécessiter d'intervention humaine. Contrairement à un virus classique, il n'a pas besoin d'un fichier hôte pour se diffuser. Sa particularité absolue : il ne se contente pas de voler des données, il <strong>détruit physiquement des équipements industriels</strong>.</p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────────────
+         CONTEXTE GÉOPOLITIQUE
+    ─────────────────────────────────────────────────────────── -->
+    <section class="section section--alt" aria-labelledby="geo-title">
+      <div class="container">
+
+        <div class="section__header">
+          <div class="section__header-text">
+            <p class="section-label">Contexte</p>
+            <h2 class="section-title" id="geo-title">Géopolitique & programme nucléaire</h2>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="prose fade-up">
+            <h3>L'Iran et la bombe</h3>
+            <p>
+              Dans les années 2000, l'Iran développe activement son programme d'enrichissement d'uranium au sein de l'usine de Natanz, dans le centre du pays. L'objectif officiel : produire du combustible pour ses centrales nucléaires civiles. Pour la communauté internationale, notamment les États-Unis et Israël, ce programme cache une ambition militaire : se doter de l'arme nucléaire.
+            </p>
+            <p>
+              L'enrichissement repose sur des <strong>centrifugeuses à gaz IR-1</strong>, des machines ultra-précises qui font tourner l'hexafluorure d'uranium (UF₆) à des dizaines de milliers de tours par minute pour séparer les isotopes U-235 (fissile) et U-238. Natanz en héberge plusieurs milliers, organisées en cascades. Ces machines sont aussi fragiles que sophistiquées.
+            </p>
+            <p>
+              Les sanctions internationales, bien qu'actives, ne suffisent pas à stopper le programme. Une intervention militaire classique risquerait d'embraser toute la région. Il faut une <em>troisième voie</em>.
+            </p>
+          </div>
+          <div class="prose fade-up">
+            <h3>Operation Olympic Games</h3>
+            <p>
+              C'est dans ce contexte tendu que naît l'<strong>Operation Olympic Games</strong>, programme top secret co-piloté par la NSA américaine et l'Unité 8200 israélienne l'élite du renseignement cyber. L'enquête du quotidien néerlandais <em>De Volkskrant</em>, publiée en janvier 2024, révèle même qu'un agent du renseignement néerlandais (AIVD), Erik van Sabban, aurait joué un rôle clé dans l'introduction physique du malware au sein des installations iraniennes.
+            </p>
+            <p>
+              L'objectif est précis : <strong>ralentir le programme nucléaire iranien sans déclencher de guerre ouverte</strong>, en détruisant discrètement les centrifugeuses de l'intérieur, pendant que les techniciens iraniens croient à de simples pannes mécaniques répétées.
+            </p>
+            <blockquote class="fade-up">
+              «&nbsp;C'est la première arme numérique au monde. Au lieu de pirater des ordinateurs ou de voler des données, Stuxnet a quitté l'espace numérique pour détruire physiquement les équipements que les ordinateurs contrôlaient.&nbsp;»
+            </blockquote>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────────────
+         ANALYSE TECHNIQUE
+    ─────────────────────────────────────────────────────────── -->
+    <section class="section" aria-labelledby="tech-title">
+      <div class="container">
+
+        <div class="section__header">
+          <div class="section__header-text">
+            <p class="section-label">Analyse technique</p>
+            <h2 class="section-title" id="tech-title">Comment Stuxnet a fonctionné</h2>
+          </div>
+        </div>
+
+        <p class="prose fade-up" style="max-width:72rem; margin-bottom:1rem;">
+          Stuxnet est une ingénierie logicielle d'une complexité sans précédent pour l'époque. Son architecture repose sur plusieurs couches d'infection, de dissimulation et de destruction. Voici les six phases de son opération.
+        </p>
+
+        <div class="tech-steps">
+
+          <article class="tech-step fade-up">
+            <div class="tech-step__num">01</div>
+            <div class="tech-step__content">
+              <h3 class="tech-step__title">Infection initiale la clé USB comme cheval de Troie</h3>
+              <p class="tech-step__body">
+                Natanz est un réseau <strong>air-gap</strong> : totalement déconnecté d'internet. Pour contourner cet isolement, les opérateurs ont infecté des clés USB remises (à leur insu) à des sous-traitants et fournisseurs de Siemens travaillant sur le site. Kaspersky a identifié cinq entreprises iraniennes comme point d'entrée initial, dont Foolad Technic, fabricant de composants destinés aux centrifugeuses. Le ver "attendait" d'atteindre sa vraie cible.
+              </p>
+              <div class="tech-step__tags">
+                <span class="tag">USB infectée</span>
+                <span class="tag">Air-gap bypass</span>
+                <span class="tag">Supply chain</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="tech-step fade-up">
+            <div class="tech-step__num">02</div>
+            <div class="tech-step__content">
+              <h3 class="tech-step__title">Propagation 4 failles zero-day dans Windows</h3>
+              <p class="tech-step__body">
+                Une fois introduit sur un premier poste Windows, Stuxnet se propage en exploitant <strong>quatre vulnérabilités zero-day</strong> des failles inconnues de Microsoft et donc non corrigées. Il utilise notamment une faille dans le traitement des fichiers <code>.lnk</code> (raccourcis Windows), qui lui permet de s'exécuter dès qu'un lecteur USB est ouvert, sans aucun clic de l'utilisateur. Il exploite également une vulnérabilité dans le spooler d'impression Windows pour se diffuser en réseau local. Ces quatre zero-day dans un seul malware constituent un investissement colossal (chaque zero-day vaut des centaines de milliers de dollars sur le marché noir).
+              </p>
+              <div class="tech-step__tags">
+                <span class="tag">Zero-day ×4</span>
+                <span class="tag">CVE-2010-2568</span>
+                <span class="tag">Print Spooler</span>
+                <span class="tag">Auto-propagation</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="tech-step fade-up">
+            <div class="tech-step__num">03</div>
+            <div class="tech-step__content">
+              <h3 class="tech-step__title">Reconnaissance & ciblage la vérification Siemens</h3>
+              <p class="tech-step__body">
+                Une fois installé, Stuxnet inspecte silencieusement chaque machine infectée. Il cherche un logiciel très précis : <strong>STEP 7 de Siemens</strong>, l'environnement de programmation des automates industriels (PLC Programmable Logic Controllers). S'il ne trouve pas ce logiciel ou si les PLC connectés ne correspondent pas aux modèles Siemens S7-315 et S7-417 utilisés à Natanz, il reste totalement dormant et inoffensif. Ce mécanisme de ciblage ultra-précis est une innovation majeure : Stuxnet n'attaque que sa cible désignée.
+              </p>
+              <div class="tech-step__tags">
+                <span class="tag">SCADA / ICS</span>
+                <span class="tag">Siemens Step 7</span>
+                <span class="tag">PLC S7-315/417</span>
+                <span class="tag">Ciblage chirurgical</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="tech-step fade-up">
+            <div class="tech-step__num">04</div>
+            <div class="tech-step__content">
+              <h3 class="tech-step__title">Reprogrammation des automates le sabotage discret</h3>
+              <p class="tech-step__body">
+                Après avoir identifié les PLC cibles, Stuxnet injecte son propre code dans les automates Siemens. Il <strong>modifie la fréquence des convertisseurs de fréquence</strong> (VFD) qui pilotent la vitesse de rotation des centrifugeuses. Au lieu d'une rotation stable à ~1 000 Hz, il provoque des accélérations brutales (~1 410 Hz) suivies de chutes soudaines (~2 Hz), créant des contraintes mécaniques extrêmes. Les centrifugeuses, tournant à des dizaines de milliers de tours/minute, surchauffent, vibrent anormalement et se détruisent progressivement. Le processus dure des semaines, voire des mois.
+              </p>
+              <div class="tech-step__tags">
+                <span class="tag">VFD sabotage</span>
+                <span class="tag">Fréquence modulée</span>
+                <span class="tag">Destruction physique</span>
+                <span class="tag">Natanz IR-1</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="tech-step fade-up">
+            <div class="tech-step__num">05</div>
+            <div class="tech-step__content">
+              <h3 class="tech-step__title">Dissimulation le man-in-the-middle industriel</h3>
+              <p class="tech-step__body">
+                C'est peut-être l'aspect le plus redoutable : pendant que les centrifugeuses s'autodétruisent, Stuxnet envoie <strong>de fausses données aux écrans de contrôle des opérateurs</strong>. Les techniciens iraniens voient des valeurs normales sur leurs moniteurs. Pendant des mois, ils croient à des pannes mécaniques inexpliquées, à des défauts de fabrication ou à un problème de qualité des composants. Stuxnet intègre également un <strong>rootkit</strong> qui cache sa présence dans les fichiers système et des certificats numériques volés (Realtek et JMicron) pour paraître légitime.
+              </p>
+              <div class="tech-step__tags">
+                <span class="tag">Rootkit</span>
+                <span class="tag">Faux signaux</span>
+                <span class="tag">Certificats volés</span>
+                <span class="tag">Stealth</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="tech-step fade-up">
+            <div class="tech-step__num">06</div>
+            <div class="tech-step__content">
+              <h3 class="tech-step__title">Détection & échappement juin 2010</h3>
+              <p class="tech-step__body">
+                En juin 2010, la société de cybersécurité biélorusse <strong>VirusBlokAda</strong> détecte un comportement anormal sur des machines iraniennes. Symantec et Kaspersky prennent rapidement le relais pour reverse-engineering le code. La découverte fait l'effet d'une bombe dans la communauté cyber : des experts décrivent Stuxnet comme "cinq ans en avance" sur tout ce qui existait. Entre-temps, le ver s'est "échappé" des réseaux fermés iraniens peut-être via un ingénieur emportant un PC contaminé et a infecté des machines en Allemagne, France, Inde et Indonésie.
+              </p>
+              <div class="tech-step__tags">
+                <span class="tag">VirusBlokAda</span>
+                <span class="tag">Symantec / Kaspersky</span>
+                <span class="tag">Reverse engineering</span>
+                <span class="tag">Propagation involontaire</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="quote-large fade-up">
+          « Les ingénieurs iraniens constataient des pannes répétées sans jamais en comprendre la cause Stuxnet leur montrait délibérément des données normales pendant que les machines s'autodétruisaient. »
+          <cite>Costin Raiu, Directeur de recherche, Kaspersky Lab</cite>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────────────
+         TIMELINE CHRONOLOGIQUE
+    ─────────────────────────────────────────────────────────── -->
+    <section class="section section--dark" aria-labelledby="timeline-title">
+      <div class="container">
+
+        <div class="section__header">
+          <div class="section__header-text">
+            <p class="section-label">Chronologie</p>
+            <h2 class="section-title" id="timeline-title">De la création à l'héritage</h2>
+          </div>
+        </div>
+
+        <div class="timeline">
+
+          <div class="timeline__item fade-up">
+            <div class="timeline__dot"></div>
+            <p class="timeline__date">2005 2007</p>
+            <h3 class="timeline__title">Genèse secrète</h3>
+            <p class="timeline__body">Lancement de l'Operation Olympic Games sous l'administration Bush. La NSA et l'Unité 8200 israélienne commencent le développement conjoint du ver. Le projet mobilise des ressources considérables et nécessite une connaissance intime des systèmes Siemens utilisés à Natanz.</p>
+          </div>
+
+          <div class="timeline__item fade-up">
+            <div class="timeline__dot"></div>
+            <p class="timeline__date">2008 2009</p>
+            <h3 class="timeline__title">Déploiement et premières destructions</h3>
+            <p class="timeline__body">Stuxnet est introduit dans les installations iraniennes via des clés USB et des sous-traitants. Les premières centrifugeuses commencent à tomber en panne. L'AIEA observe une baisse anormale du nombre de centrifugeuses actives à Natanz, sans pouvoir en identifier la cause.</p>
+          </div>
+
+          <div class="timeline__item fade-up">
+            <div class="timeline__dot"></div>
+            <p class="timeline__date">Juin 2010</p>
+            <h3 class="timeline__title">Découverte accidentelle</h3>
+            <p class="timeline__body">VirusBlokAda détecte Stuxnet sur des PC iraniens. Symantec et Kaspersky publient des analyses détaillées qui stupéfient la communauté cyber mondiale. Le ver a entre-temps infecté plus de 45 000 systèmes dans 14 pays. L'Iran admet avoir été touché mais minimise l'impact.</p>
+          </div>
+
+          <div class="timeline__item fade-up">
+            <div class="timeline__dot"></div>
+            <p class="timeline__date">Novembre 2010</p>
+            <h3 class="timeline__title">Confirmation des dégâts</h3>
+            <p class="timeline__body">Les chercheurs de Symantec et Langner Communications confirment que Stuxnet ciblait spécifiquement les turbines à vapeur de Bouchehr et les centrifugeuses de Natanz. L'AIEA confirme indirectement l'impact : le nombre de centrifugeuses actives à Natanz a chuté de façon inexpliquée.</p>
+          </div>
+
+          <div class="timeline__item fade-up">
+            <div class="timeline__dot"></div>
+            <p class="timeline__date">2012</p>
+            <h3 class="timeline__title">Confirmation officieuse américaine</h3>
+            <p class="timeline__body">Le New York Times, citant des sources gouvernementales anonymes, révèle que Stuxnet est bien une opération conjointe USA-Israël, connue en interne sous le nom "Olympic Games". Le président Obama aurait personnellement supervisé et accéléré le programme. La révélation provoque un débat juridique sur la légalité de telles opérations cyber.</p>
+          </div>
+
+          <div class="timeline__item fade-up">
+            <div class="timeline__dot"></div>
+            <p class="timeline__date">Janvier 2024</p>
+            <h3 class="timeline__title">Le "patient zéro" révélé</h3>
+            <p class="timeline__body">L'enquête de De Volkskrant révèle pour la première fois l'identité du "patient zéro" : un agent du renseignement néerlandais (AIVD) ayant infiltré les installations iraniennes pour y introduire physiquement le malware. Cette révélation confirme l'implication des Pays-Bas dans l'opération, longtemps suspectée.</p>
+          </div>
+
+          <div class="timeline__item fade-up">
+            <div class="timeline__dot"></div>
+            <p class="timeline__date">2024 2025</p>
+            <h3 class="timeline__title">Un héritage toujours actif</h3>
+            <p class="timeline__body">Les cyberattaques contre les infrastructures critiques (Colonial Pipeline, JBS Foods, attaques sur le réseau électrique ukrainien) montrent que l'ADN de Stuxnet cibler des OT/ICS est désormais un standard de la cyberguerre moderne. Les environnements industriels restent une cible privilégiée.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────────────
+         IMPACT GÉOPOLITIQUE & ÉCONOMIQUE
+    ─────────────────────────────────────────────────────────── -->
+    <section class="section section--alt" aria-labelledby="impact-title">
+      <div class="container">
+
+        <div class="section__header">
+          <div class="section__header-text">
+            <p class="section-label">Impact</p>
+            <h2 class="section-title" id="impact-title">Géopolitique, économique & cyber</h2>
+          </div>
+        </div>
+
+        <div class="two-col">
+
+          <div class="fade-up">
+            <div class="veille-card">
+              <div class="veille-card__icon-wrap">🌍</div>
+              <h3 class="veille-card__title">Impact géopolitique</h3>
+              <p class="veille-card__desc">
+                Stuxnet a démontré qu'un État peut mener une opération de sabotage stratégique sans déclencher de guerre conventionnelle. Il a retardé le programme nucléaire iranien de 2 à 5 ans selon les estimations, gagnant du temps pour les négociations diplomatiques qui aboutiront à l'accord de Vienne (JCPOA) en 2015. En retour, l'Iran a massivement investi dans ses propres capacités cyber offensives. Les hackers iraniens (APT33, APT34…) ont depuis mené des attaques contre des banques américaines, des entreprises saoudiennes (Shamoon) et des infrastructures israéliennes.
+              </p>
+            </div>
+          </div>
+
+          <div class="fade-up">
+            <div class="veille-card">
+              <div class="veille-card__icon-wrap">💰</div>
+              <h3 class="veille-card__title">Impact économique</h3>
+              <p class="veille-card__desc">
+                La destruction de ~900 centrifugeuses IR-1, dont le coût unitaire dépasse les 100 000 $, représente une perte directe considérable pour l'Iran. Mais l'impact le plus profond est indirect : le retard imposé au programme nucléaire a renforcé les sanctions internationales, privant l'Iran de dizaines de milliards de dollars de revenus pétroliers. Pour les États-Unis et Israël, l'opération fut infiniment moins coûteuse qu'une frappe militaire conventionnelle, inaugurant le concept d'<strong>effet militaire par voie cyber</strong>.
+              </p>
+            </div>
+          </div>
+
+          <div class="fade-up">
+            <div class="veille-card">
+              <div class="veille-card__icon-wrap">🔓</div>
+              <h3 class="veille-card__title">La boîte de Pandore</h3>
+              <p class="veille-card__desc">
+                En s'échappant du réseau iranien, Stuxnet a exposé son code source à l'ensemble de la communauté hacker mondiale. Des dérivés ont rapidement émergé : <strong>Duqu</strong> (espionnage industriel, 2011), <strong>Flame</strong> (espionnage ultra-sophistiqué, 2012), <strong>Gauss</strong> (vol d'informations bancaires, 2012). Plus grave : la technique d'attaque des PLC Siemens est désormais documentée et accessible. Des groupes criminels ou terroristes pourraient l'adapter à des cibles bien moins sécurisées que Natanz.
+              </p>
+            </div>
+          </div>
+
+          <div class="fade-up">
+            <div class="veille-card">
+              <div class="veille-card__icon-wrap">🏭</div>
+              <h3 class="veille-card__title">Révolution de la sécurité OT</h3>
+              <p class="veille-card__desc">
+                Avant 2010, la sécurité des systèmes industriels (OT/SCADA) était quasi inexistante : l'isolement physique (air-gap) semblait suffisant. Stuxnet a prouvé que c'était une illusion. Depuis, le marché de la cybersécurité industrielle a explosé. Des frameworks dédiés (IEC 62443, NIST SP 800-82) ont été développés. Des acteurs spécialisés comme Claroty, Dragos ou Nozomi Networks sont devenus des licornes. L'Industrie 4.0 avec ses OT connectées à l'IT rend cette sécurité plus critique que jamais.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="callout-dark fade-up">
+          <div class="callout-dark__icon">⚡</div>
+          <div>
+            <h3 class="callout-dark__title">Héritage direct : les attaques post-Stuxnet sur infrastructures critiques</h3>
+            <p class="callout-dark__body">
+              <strong>BlackEnergy / Industroyer (2015-2016)</strong> Ukraine : premier blackout causé par une cyberattaque, 230 000 foyers privés d'électricité.<br><br>
+              <strong>Triton / TRISIS (2017)</strong>  Arabie Saoudite : attaque ciblant les systèmes de sécurité incendie d'une raffinerie, conçue pour provoquer une explosion physique.<br><br>
+              <strong>Colonial Pipeline (2021)</strong> États-Unis : ransomware paralysant le plus grand oléoduc américain pendant 6 jours, pénurie d'essence sur la côte Est.<br><br>
+              <strong>Industroyer2 (2022)</strong> Ukraine : nouvelle tentative de blackout lors du conflit russo-ukrainien, déjouée de justesse par l'ESET et le CERT ukrainien.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────────────
+         ANALYSE CYBER LIEN AVEC LA FORMATION
+    ─────────────────────────────────────────────────────────── -->
+    <section class="section" aria-labelledby="sisr-title">
+      <div class="container">
+
+        <div class="section__header">
+          <div class="section__header-text">
+            <p class="section-label">Regard SISR</p>
+            <h2 class="section-title" id="sisr-title">Enseignements pour la cybersécurité</h2>
+          </div>
+        </div>
+
+        <div class="prose fade-up" style="max-width: 100%;">
+
+          <h3>Les vulnérabilités exploitées ce que ça nous apprend</h3>
+          <p>Stuxnet n'a pas exploité une seule faiblesse technique, mais un <em>système de faiblesses</em> combinées. Chaque couche de l'attaque révèle une leçon fondamentale pour un administrateur réseau :</p>
+
+          <ul>
+            <li><strong>Le vecteur USB :</strong> La désactivation de l'auto-run sur les médias amovibles et une politique stricte de gestion des USB (blocage par GPO, solutions de DLP) auraient considérablement compliqué l'infection initiale.</li>
+            <li><strong>Les zero-days Windows :</strong> Microsoft a patché les 4 failles exploitées par Stuxnet entre août et octobre 2010. La mise à jour régulière des systèmes (patch management) reste l'une des mesures les plus efficaces contre les menaces connues.</li>
+            <li><strong>L'absence de segmentation réseau :</strong> Un réseau OT correctement segmenté avec des zones démilitarisées (DMZ industrielle), conformément à la norme IEC 62443, aurait limité la propagation du ver entre postes de travail.</li>
+            <li><strong>Les certificats numériques volés :</strong> Stuxnet a utilisé des certificats valides (Realtek, JMicron) pour passer les contrôles de sécurité. L'intégrité de la chaîne de confiance PKI est critique dans les environnements sensibles.</li>
+            <li><strong>L'absence de monitoring OT :</strong> Sans solution de détection d'intrusion adaptée aux protocoles industriels (Modbus, Profinet…), le comportement anormal des PLC est resté indétectable pendant des mois.</li>
+          </ul>
+
+          <h3>Stuxnet et l'architecture Zero Trust</h3>
+          <p>
+            L'attaque illustre parfaitement pourquoi le modèle de sécurité périmétrique "tout ce qui est à l'intérieur du réseau est de confiance" est obsolète. L'approche <strong>Zero Trust</strong> (ne jamais faire confiance, toujours vérifier) impose une authentification forte pour chaque accès, même interne, une microsegmentation des réseaux, et une vérification continue de l'état de santé des équipements. Ces principes, aujourd'hui intégrés dans les frameworks NIST et dans les recommandations de l'ANSSI, sont directement inspirés des leçons de Stuxnet.
+          </p>
+
+          <h3>La question éthique et juridique</h3>
+          <p>
+            Stuxnet soulève une question fondamentale du droit international : une attaque cyber destructrice contre des infrastructures étrangères constitue-t-elle un <em>acte de guerre</em> au sens du droit international humanitaire ? La Convention de Genève s'applique-t-elle au cyberespace ? Ces questions restent aujourd'hui sans réponse définitive. Le Manuel de Tallinn, rédigé par des juristes de l'OTAN, tente d'y répondre mais n'a aucune valeur contraignante. La cyberguerre opère dans un vide juridique que les États exploitent activement.
+          </p>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────────────
+         SOURCES & POUR ALLER PLUS LOIN
+    ─────────────────────────────────────────────────────────── -->
+    <section class="section section--dark" aria-labelledby="sources-title">
+      <div class="container">
+
+        <div class="section__header">
+          <div class="section__header-text">
+            <p class="section-label">Bibliographie</p>
+            <h2 class="section-title" id="sources-title">Sources & pour aller plus loin</h2>
+          </div>
+        </div>
+
+        <div class="two-col" style="margin-bottom: 4rem;">
+          <div>
+            <p class="section-label" style="margin-bottom: 2rem;">Sources principales</p>
+            <ol class="sources-list">
+              <li>
+                <span class="sources-list__num">[1]</span>
+                <span>Micode <em>« Le virus le plus flippant de l'Histoire »</em>, YouTube, décembre 2024. Analyse technique et vulgarisation grand public.</span>
+              </li>
+              <li>
+                <span class="sources-list__num">[2]</span>
+                <span>De Volkskrant <em>Enquête sur l'Operation Olympic Games et le rôle de l'AIVD</em>, janvier 2024. <a href="https://www.volkskrant.nl" target="_blank" rel="noopener">volkskrant.nl</a></span>
+              </li>
+              <li>
+                <span class="sources-list__num">[3]</span>
+                <span>Kaspersky Lab <em>Stuxnet : analyse technique complète</em>, kaspersky.fr. <a href="https://www.kaspersky.fr/resource-center/definitions/what-is-stuxnet" target="_blank" rel="noopener">kaspersky.fr</a></span>
+              </li>
+              <li>
+                <span class="sources-list__num">[4]</span>
+                <span>Stormshield  <em>« Ver informatique Stuxnet : quel héritage aujourd'hui ? »</em>, mars 2025. <a href="https://www.stormshield.com/fr/actus/stuxnet-ver-informatique-enseignements-heritage/" target="_blank" rel="noopener">stormshield.com</a></span>
+              </li>
+              <li>
+                <span class="sources-list__num">[5]</span>
+                <span>INCYBER News  <em>« Retour sur Stuxnet, premier acte de cyberguerre de l'histoire »</em>, janvier 2024. <a href="https://incyber.org/article/retour-sur-stuxnet-premier-acte-de-cyberguerre-de-lhistoire/" target="_blank" rel="noopener">incyber.org</a></span>
+              </li>
+              <li>
+                <span class="sources-list__num">[6]</span>
+                <span>Symantec / Broadcom  <em>W32.Stuxnet Dossier</em>, version 1.4, février 2011. Analyse technique de référence par l'équipe qui a réversé le ver.</span>
+              </li>
+              <li>
+                <span class="sources-list__num">[7]</span>
+                <span>Wikipedia FR <em>Stuxnet</em>. <a href="https://fr.wikipedia.org/wiki/Stuxnet" target="_blank" rel="noopener">fr.wikipedia.org/wiki/Stuxnet</a></span>
+              </li>
+            </ol>
+          </div>
+          <div>
+            <p class="section-label" style="margin-bottom: 2rem;">Lectures complémentaires</p>
+            <ol class="sources-list">
+              <li>
+                <span class="sources-list__num">[8]</span>
+                <span>Kim Zetter <em>Countdown to Zero Day: Stuxnet and the Launch of the World's First Digital Weapon</em>, Crown Publishers, 2014. Le livre de référence journalistique sur Stuxnet.</span>
+              </li>
+              <li>
+                <span class="sources-list__num">[9]</span>
+                <span>FeelAutom <em>« The Stuxnet Affair: The Big Bang of Industrial Cybersecurity »</em>, janvier 2026. <a href="https://www.feelautom.fr/en/blog/the-stuxnet-affair-the-big-bang-of-industrial-cybersecurity" target="_blank" rel="noopener">feelautom.fr</a></span>
+              </li>
+              <li>
+                <span class="sources-list__num">[10]</span>
+                <span>ANSSI  <em>Guide de recommandations de sécurité pour les systèmes industriels</em>. <a href="https://www.ssi.gouv.fr" target="_blank" rel="noopener">ssi.gouv.fr</a></span>
+              </li>
+              <li>
+                <span class="sources-list__num">[11]</span>
+                <span>OPSWAT  <em>« Derrière la brèche : Analyser les cyberattaques critiques ICS/OT »</em>, juin 2024. <a href="https://french.opswat.com/blog/behind-the-breach-analyzing-critical-ics-ot-cyberattacks" target="_blank" rel="noopener">opswat.com</a></span>
+              </li>
+              <li>
+                <span class="sources-list__num">[12]</span>
+                <span>Documentaire  <em>Zero Days</em> (Alex Gibney, 2016). Témoignages exclusifs d'anciens officiers de la NSA sur Olympic Games.</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="highlight-box fade-up">
+          <p class="highlight-box__title">📌 Conclusion de la veille</p>
+          <p>Stuxnet n'est pas qu'un fait historique : c'est la matrice de la cyberguerre contemporaine. Il a prouvé qu'un logiciel peut avoir un effet cinétique détruire physiquement des équipements ouvrant un nouveau domaine de conflictualité entre États. Pour un professionnel SISR, il rappelle que la sécurité ne s'arrête pas au firewall périmétrique, que les systèmes industriels sont des surfaces d'attaque critiques, et que l'enjeu de la cybersécurité dépasse largement la technique : c'est une question de souveraineté nationale.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <span class="footer__logo">Nisa <span>Ozerdem</span></span>
+      <ul class="footer__links">
+        <li><a href="https://github.com/[votre-github]" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://linkedin.com/in/nisa-ozerdem" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+      <p class="footer__copy">&copy; 2026 Nisa Ozerdem</p>
+    </div>
   </footer>
+
   <button class="back-top" aria-label="Retour en haut" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
   <script src="./index.js"></script>
 </body>
 </html>
