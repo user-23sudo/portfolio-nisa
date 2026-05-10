@@ -545,13 +545,13 @@
             <div class="tech-step__content">
               <h3 class="tech-step__title">Reprogrammation des automates le sabotage discret</h3>
               <p class="tech-step__body">
-                Après avoir identifié les PLC cibles, Stuxnet injecte son propre code dans les automates Siemens. Il <strong>modifie la fréquence des convertisseurs de fréquence</strong> (VFD) qui pilotent la vitesse de rotation des centrifugeuses. Au lieu d'une rotation stable à ~1 000 Hz, il provoque des accélérations brutales (~1 410 Hz) suivies de chutes soudaines (~2 Hz), créant des contraintes mécaniques extrêmes. Les centrifugeuses, tournant à des dizaines de milliers de tours/minute, surchauffent, vibrent anormalement et se détruisent progressivement. Le processus dure des semaines, voire des mois.
+                Après avoir repéré les automates programmables industriels (PLC), Stuxnet injecte son code dans les systèmes Siemens. Il modifie la fréquence des variateurs de fréquence (VFD), qui contrôlent la vitesse des centrifugeuses. Au lieu d’une rotation stable, il provoque des accélérations brutales puis des ralentissements soudains, créant de fortes contraintes mécaniques. Les centrifugeuses, tournant à très grande vitesse, surchauffent, vibrent et se détruisent progressivement. Le processus dure plusieurs semaines ou mois.
               </p>
               <div class="tech-step__tags">
-                <span class="tag">VFD sabotage</span>
+                <span class="tag">Sabotage</span>
                 <span class="tag">Fréquence modulée</span>
                 <span class="tag">Destruction physique</span>
-                <span class="tag">Natanz IR-1</span>
+                <span class="tag"></span>
               </div>
             </div>
           </article>
@@ -561,13 +561,13 @@
             <div class="tech-step__content">
               <h3 class="tech-step__title">Dissimulation le man-in-the-middle industriel</h3>
               <p class="tech-step__body">
-                C'est peut-être l'aspect le plus redoutable : pendant que les centrifugeuses s'autodétruisent, Stuxnet envoie <strong>de fausses données aux écrans de contrôle des opérateurs</strong>. Les techniciens iraniens voient des valeurs normales sur leurs moniteurs. Pendant des mois, ils croient à des pannes mécaniques inexpliquées, à des défauts de fabrication ou à un problème de qualité des composants. Stuxnet intègre également un <strong>rootkit</strong> qui cache sa présence dans les fichiers système et des certificats numériques volés (Realtek et JMicron) pour paraître légitime.
+                C’est peut-être l’aspect le plus dangereux : pendant que les centrifugeuses se détruisent, Stuxnet affiche de fausses informations aux écrans de contrôle. Les techniciens iraniens voient des données normales et pensent à des pannes ou à des défauts matériels. Pendant des mois, ils ne comprennent pas la cause réelle du problème. En parallèle, Stuxnet se cache dans le système grâce à un rootkit et utilise des certificats numériques volés pour paraître légitime.
               </p>
               <div class="tech-step__tags">
-                <span class="tag">Rootkit</span>
+                <span class="tag"></span>
                 <span class="tag">Faux signaux</span>
                 <span class="tag">Certificats volés</span>
-                <span class="tag">Stealth</span>
+                <span class="tag"></span>
               </div>
             </div>
           </article>
@@ -577,11 +577,11 @@
             <div class="tech-step__content">
               <h3 class="tech-step__title">Détection & échappement juin 2010</h3>
               <p class="tech-step__body">
-                En juin 2010, la société de cybersécurité biélorusse <strong>VirusBlokAda</strong> détecte un comportement anormal sur des machines iraniennes. Symantec et Kaspersky prennent rapidement le relais pour reverse-engineering le code. La découverte fait l'effet d'une bombe dans la communauté cyber : des experts décrivent Stuxnet comme "cinq ans en avance" sur tout ce qui existait. Entre-temps, le ver s'est "échappé" des réseaux fermés iraniens peut-être via un ingénieur emportant un PC contaminé et a infecté des machines en Allemagne, France, Inde et Indonésie.
+                En juin 2010, la société de cybersécurité biélorusse **VirusBlokAda** repère un comportement suspect sur des machines en Iran. Des entreprises comme Symantec et Kaspersky analysent ensuite le code en détail. La découverte choque la communauté : Stuxnet est considéré comme très en avance sur son temps. Entre-temps, il s’est échappé des réseaux isolés iraniens, probablement via un ordinateur infecté, et a touché des systèmes en Allemagne, France, Inde et Indonésie.
               </p>
               <div class="tech-step__tags">
                 <span class="tag">VirusBlokAda</span>
-                <span class="tag">Symantec / Kaspersky</span>
+                <span class="tag"></span>
                 <span class="tag">Reverse engineering</span>
                 <span class="tag">Propagation involontaire</span>
               </div>
