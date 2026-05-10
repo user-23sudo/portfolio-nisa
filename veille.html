@@ -498,11 +498,11 @@
             <div class="tech-step__content">
               <h3 class="tech-step__title">Infection initiale la clé USB comme cheval de Troie</h3>
               <p class="tech-step__body">
-                Natanz est un réseau <strong>air-gap</strong> : totalement déconnecté d'internet. Pour contourner cet isolement, les opérateurs ont infecté des clés USB remises (à leur insu) à des sous-traitants et fournisseurs de Siemens travaillant sur le site. Kaspersky a identifié cinq entreprises iraniennes comme point d'entrée initial, dont Foolad Technic, fabricant de composants destinés aux centrifugeuses. Le ver "attendait" d'atteindre sa vraie cible.
+                Natanz n’est pas connecté à internet. Pour y introduire le virus, des clés USB infectées ont été utilisées sans que les employés le sachent, via des sous-traitants de Siemens. D’après Kaspersky, plusieurs entreprises iraniennes, dont Foolad Technic, ont servi de point d’entrée. Le virus attendait ensuite d’atteindre sa vraie cible.
               </p>
               <div class="tech-step__tags">
                 <span class="tag">USB infectée</span>
-                <span class="tag">Air-gap bypass</span>
+                <span class="tag"></span>
                 <span class="tag">Supply chain</span>
               </div>
             </div>
@@ -513,13 +513,13 @@
             <div class="tech-step__content">
               <h3 class="tech-step__title">Propagation 4 failles zero-day dans Windows</h3>
               <p class="tech-step__body">
-                Une fois introduit sur un premier poste Windows, Stuxnet se propage en exploitant <strong>quatre vulnérabilités zero-day</strong> des failles inconnues de Microsoft et donc non corrigées. Il utilise notamment une faille dans le traitement des fichiers <code>.lnk</code> (raccourcis Windows), qui lui permet de s'exécuter dès qu'un lecteur USB est ouvert, sans aucun clic de l'utilisateur. Il exploite également une vulnérabilité dans le spooler d'impression Windows pour se diffuser en réseau local. Ces quatre zero-day dans un seul malware constituent un investissement colossal (chaque zero-day vaut des centaines de milliers de dollars sur le marché noir).
+                Une fois installé sur un ordinateur Windows, Stuxnet se propage grâce à **quatre failles inconnues (zero-day)** de Microsoft, donc non corrigées. Il exploite notamment une faille des fichiers .lnk pour s’activer dès l’ouverture d’une clé USB, sans action de l’utilisateur, et une faille du système d’impression pour se diffuser sur le réseau local. Le fait d’utiliser quatre zero-day montre un développement très coûteux et avancé.
               </p>
               <div class="tech-step__tags">
                 <span class="tag">Zero-day ×4</span>
-                <span class="tag">CVE-2010-2568</span>
-                <span class="tag">Print Spooler</span>
                 <span class="tag">Auto-propagation</span>
+                <span class="tag"></span>
+                <span class="tag"></span>
               </div>
             </div>
           </article>
@@ -529,10 +529,10 @@
             <div class="tech-step__content">
               <h3 class="tech-step__title">Reconnaissance & ciblage la vérification Siemens</h3>
               <p class="tech-step__body">
-                Une fois installé, Stuxnet inspecte silencieusement chaque machine infectée. Il cherche un logiciel très précis : <strong>STEP 7 de Siemens</strong>, l'environnement de programmation des automates industriels (PLC Programmable Logic Controllers). S'il ne trouve pas ce logiciel ou si les PLC connectés ne correspondent pas aux modèles Siemens S7-315 et S7-417 utilisés à Natanz, il reste totalement dormant et inoffensif. Ce mécanisme de ciblage ultra-précis est une innovation majeure : Stuxnet n'attaque que sa cible désignée.
+                Une fois installé, Stuxnet examine silencieusement chaque machine infectée. Il cherche le logiciel précis **STEP 7 de Siemens**, utilisé pour programmer les automates industriels (PLC). S’il ne le trouve pas, ou si les PLC ne correspondent pas aux modèles Siemens S7-315 et S7-417 utilisés à Natanz, il reste totalement inactif. Ce ciblage extrêmement précis est une innovation importante : Stuxnet n’attaque que sa cible désignée.
               </p>
               <div class="tech-step__tags">
-                <span class="tag">SCADA / ICS</span>
+                <span class="tag"></span>
                 <span class="tag">Siemens Step 7</span>
                 <span class="tag">PLC S7-315/417</span>
                 <span class="tag">Ciblage chirurgical</span>
